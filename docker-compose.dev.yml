@@ -1,0 +1,25 @@
+version: '3.5'
+
+volumes:
+  db_dev: {}
+
+services:
+  database:
+    container_name: database
+    restart: on-failure
+    image: postgres:9.5
+    volumes:
+      - db_dev:/var/lib/postgresql/data
+  
+  webserver:
+    container_name: webserver
+    image: webserver:${APP_VERSION}
+    restart: always
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    depends_on:
+      - database
+

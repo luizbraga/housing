@@ -1,0 +1,30 @@
+version: '3.5'
+
+volumes:
+  db_dev: {}
+
+services:
+  database:
+    container_name: database${APP_VERSION}
+    restart: on-failure
+    image: postgres:9.5
+    volumes:
+      - db_dev:/var/lib/postgresql/data
+    networks:
+      - backend
+  
+  webserver:
+    container_name: webserver${APP_VERSION}
+    image: webserver${APP_VERSION}
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    networks:
+      - backend
+
+networks:
+  backend:
+    name: housing${APP_VERSION}
