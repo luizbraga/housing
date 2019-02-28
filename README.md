@@ -1,4 +1,6 @@
 # Housing :house:
+[![CircleCI](https://circleci.com/gh/luizbraga/housing.svg?style=svg)](https://circleci.com/gh/luizbraga/housing)
+
 Simple house keeper application, where we can store things we forgot constantly
 
 ### Dependencies

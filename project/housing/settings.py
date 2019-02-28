@@ -11,13 +11,14 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from django.utils.crypto import get_random_string
 from decouple import config
 from dj_database_url import parse as db_url
 from pathlib import Path
 from sys import path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = Path(__file__).absolute().parent.parent
+BASE_DIR = Path(__file__).absolute().parent
 APPS_DIR = BASE_DIR.joinpath('apps')
 
 path.insert(0, str(APPS_DIR))
@@ -27,7 +28,7 @@ path.insert(0, str(APPS_DIR))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = config('SECRET_KEY', default=get_random_string())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool, default=True)

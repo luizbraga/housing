@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 
-until python manage.py migrate --settings=housing.settings
+
+until python manage.py migrate
 do
     echo "Waiting for postgres..."
     sleep 2
 done
+python manage.py collectstatic --noinput
 
-python manage.py runserver 0.0.0.0:8000 --settings=housing.settings
+exec gunicorn housing.wsgi:application \
+    --name housing \
+    --bind 0.0.0.0:8000 \
+    --workers 3 \
+    --log-level=info

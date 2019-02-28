@@ -4,7 +4,7 @@ ifeq (test, $(firstword $(MAKECMDGOALS)))
 endif
 
 APP_NAME=housing
-docker-compose-dev=docker-compose -f docker-compose.dev.yml
+docker-compose=docker-compose -f docker-compose.yml
 
 KNOWN_TARGETS=dev-exec
 ARGS:=$(filter-out $(KNOWN_TARGETS),$(MAKECMDGOALS))
@@ -21,10 +21,10 @@ help:
 
 
 install: ## Install pip dependencies for the API
-	pip install -r requirements.txt
+	pip install -r project/requirements.dev.txt
 
 run: ## Start API server
-	python manage.py runserver
+	python project/manage.py runserver --settings=housing.settings
 
 clean_pyc: ## Delete all .pyc files
 	find -name "*.pyc" -delete
@@ -33,21 +33,21 @@ clean_pyc: ## Delete all .pyc files
 
 # DOCKER COMMANDS
 
-dev-build: ## Build develoment container
-	$(docker-compose-dev) build --no-cache
-	$(docker-compose-dev) up -d
+docker-build: ## Build develoment container
+	$(docker-compose) build --no-cache
+	$(docker-compose) up -d
 
-dev-up: ## Run all dev containers
-	$(docker-compose-dev) up -d
+docker-up: ## Run all dev containers
+	$(docker-compose) up -d
 
-dev-down: ## Stop all dev containers
-	$(docker-compose-dev) down
+docker-down: ## Stop all dev containers
+	$(docker-compose) down
 
-dev-restart: ## Restart all dev containers
-	$(docker-compose-dev) restart
+docker-restart: ## Restart all dev containers
+	$(docker-compose) restart
 
-dev-clean: ## Stop all dev containers and remove volume, image and network
-	$(docker-compose-dev) down -v --rmi all
+docker-clean: ## Stop all dev containers and remove volume, image and network
+	$(docker-compose) down -v --rmi all
 
-dev-exec: ## Run command in API container, such as "make test"
-	$(docker-compose-dev) exec web $(ARGS)
+docker-exec: ## Run command in API container, such as "make test"
+	$(docker-compose) exec web $(ARGS)
