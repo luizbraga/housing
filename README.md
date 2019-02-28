@@ -4,6 +4,7 @@ Simple house keeper application, where we can store things we forgot constantly
 ### Dependencies
 * Python 3.6.0
 * Postgres 9.6
+* Docker Engine >= 17.12.0
 
 ### Development
 * Run `make install` to install dependencies
