@@ -1,5 +1,5 @@
 # Housing :house:
-Simple house keeper application, where we can store things we forgot constatly
+Simple house keeper application, where we can store things we forgot constantly
 
 ### Dependencies
 * Python 3.6.0
