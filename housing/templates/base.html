@@ -1,0 +1,30 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}Housing{% endblock title %}</title>
+        <meta charset="utf-8">
+        <meta name="author" content="">
+        <meta name="copyright" content="">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="robots" content="index, follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="mobile-web-app-capable" content="yes">
+        <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}" />
+        {% block styles %}
+            <link href='http://fonts.googleapis.com/css?family=Roboto:400,100|Open+Sans:400,700' rel='stylesheet'>
+            <link href="{% static 'css/styles.css' %}" rel="stylesheet"/ >
+        {% endblock styles %}
+        {% block base_scripts %}
+        {% endblock base_scripts %}
+    </head>
+    <body>
+        {% block header %}{% endblock header %}
+        {% block content %}{% endblock content %}
+        {% block footer %}{% endblock footer %}
+        {% block scripts %}{% endblock scripts %}
+    </body>
+</html>
