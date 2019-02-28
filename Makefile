@@ -1,3 +1,8 @@
+ifeq (test, $(firstword $(MAKECMDGOALS)))
+  runargs := $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
+  $(eval $(runargs):;@true)
+endif
+
 APP_NAME=housing
 docker-compose-dev=docker-compose -f docker-compose.dev.yml
 
@@ -16,10 +21,10 @@ help:
 
 
 install: ## Install pip dependencies for the API
-	${PIP} install -r requirements.txt
+	pip install -r requirements.txt
 
 run: ## Start API server
-	${PYTHON} manage.py runserver
+	python manage.py runserver
 
 clean_pyc: ## Delete all .pyc files
 	find -name "*.pyc" -delete
