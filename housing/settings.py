@@ -13,10 +13,14 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 from decouple import config
 from dj_database_url import parse as db_url
-
+from pathlib import Path
+from sys import path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).absolute().parent.parent
+APPS_DIR = BASE_DIR.joinpath('apps')
+
+path.insert(0, str(APPS_DIR))
 
 
 # Quick-start development settings - unsuitable for production
@@ -28,7 +32,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool, default=True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=['*'])
 
 
 # Application definition
