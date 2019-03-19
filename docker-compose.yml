@@ -21,7 +21,7 @@ services:
   
   webserver:
     container_name: webserver_${APP_VERSION}
-    image: webserver:${APP_VERSION}
+    image: luizbraga/housing:${APP_VERSION}
     restart: always
     build: .
     volumes:
