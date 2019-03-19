@@ -40,7 +40,7 @@ jobs:
           key: housing-{{ .Branch }}-{{ epoch }}
           paths:
             - /caches/housing.tar
-      - publish:
+      - run:
           name: Push application Docker image
           command: |
               echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
