@@ -30,6 +30,7 @@ services:
     environment:
       - DEBUG=False
       - DATABASE_URL=postgres://housing:password@database/housing
+      - VIRTUAL_HOST=${APP_VERSION}.cadagente.tk
     ports:
       - 8000:8000
     networks:
