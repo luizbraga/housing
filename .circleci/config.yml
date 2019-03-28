@@ -1,55 +1,45 @@
-# Python CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-python/ for more details
-#
 version: 2
 jobs:
   build:
+    working_directory: /app
     docker:
-      # specify the version you desire here
-      # use `-browsers` prefix for selenium tests, e.g. `3.6.1-browsers`
-      - image: circleci/python:3.6.1
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
-    working_directory: ~/repo
-
+      - image: docker:17.05.0-ce-git
     steps:
       - checkout
-
-      # Download and cache dependencies
+      - setup_remote_docker
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --no-cache \
+              py-pip=9.0.0-r1
+            pip install \
+              docker-compose==1.12.0 \
+              awscli==1.11.76
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "src/requirements.dev.txt" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run:
-          name: install dependencies
-          command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            pip install -r src/requirements.dev.txt
-
-      - save_cache:
+            - housing-{{ .Branch }}
           paths:
-            - ./venv
-          key: v1-dependencies-{{ checksum "src/requirements.dev.txt" }}
-
-      # run tests!
-      # this example uses Django's built-in test-runner
-      # other common Python testing frameworks include pytest and nose
-      # https://pytest.org
-      # https://nose.readthedocs.io
+            - /caches/housing.tar
       - run:
-          name: run tests
+          name: Load Docker image layer cache
           command: |
-            . venv/bin/activate
-            pytest
-
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
+            set +o pipefail
+            docker load -i /caches/housing.tar | true
+      - run:
+          name: Build application Docker image
+          command: |
+            docker build --cache-from=housing -t luizbraga/housing:$CIRCLE_BRANCH .
+      - run:
+          name: Save Docker image layer cache
+          command: |
+            mkdir -p /caches
+            docker save -o /caches/housing.tar luizbraga/housing:$CIRCLE_BRANCH
+      - save_cache:
+          key: housing-{{ .Branch }}-{{ epoch }}
+          paths:
+            - /caches/housing.tar
+      - run:
+          name: Push application Docker image
+          command: |
+              docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASS
+              docker push luizbraga/housing:$CIRCLE_BRANCH
