@@ -1,9 +1,9 @@
 version: '3.5'
 
 volumes:
-  project_db: {}
-  project_media: {}
-  project_logs: {}
+  housing_db: {}
+  housing_media: {}
+  housing_logs: {}
 
 services:
   database:
@@ -11,7 +11,7 @@ services:
     restart: on-failure
     image: postgres:9.5
     volumes:
-      - project_db:/var/lib/postgresql/data
+      - housing_db:/var/lib/postgresql/data
     networks:
       - backend
     environment:
@@ -25,8 +25,8 @@ services:
     restart: always
     build: .
     volumes:
-      - project_media:/app/media/
-      - project_logs:/app/logs/
+      - housing_media:/app/media/
+      - housing_logs:/app/logs/
     environment:
       - DEBUG=False
       - DATABASE_URL=postgres://housing:password@database/housing

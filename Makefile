@@ -21,10 +21,10 @@ help:
 
 
 install: ## Install pip dependencies for the API
-	pip install -r project/requirements.dev.txt
+	pip install -r src/requirements.dev.txt
 
 run: ## Start API server
-	python project/manage.py runserver --settings=housing.settings
+	python src/manage.py runserver --settings=housing.settings
 
 clean_pyc: ## Delete all .pyc files
 	find -name "*.pyc" -delete
