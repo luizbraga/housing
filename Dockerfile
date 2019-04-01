@@ -8,7 +8,7 @@ ENV PROJ_SRCHOME /app/src
 WORKDIR $PROJ_HOME
 COPY $PROJ_SRC $PROJ_SRCHOME
 
-RUN pip install -r $PROJ_SRCHOME/requirements.txt
+RUN pip install -r $PROJ_SRCHOME/requirements.dev.txt
 
 WORKDIR $PROJ_SRCHOME
 

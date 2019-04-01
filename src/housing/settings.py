@@ -147,5 +147,16 @@ THOUSAND_SEPARATOR = '.'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
-
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    str(BASE_DIR.parent.joinpath('static')),
+)
+
+STATIC_ROOT = config(
+    'STATIC_ROOT', default=str(BASE_DIR.parent.joinpath('staticfiles'))
+)
+
+MEDIA_ROOT = config(
+    'MEDIA_ROOT', default=str(BASE_DIR.parent.joinpath('media'))
+)

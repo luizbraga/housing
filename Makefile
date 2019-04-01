@@ -6,7 +6,7 @@ endif
 APP_NAME=housing
 docker-compose=docker-compose -f docker-compose.yml
 
-KNOWN_TARGETS=dev-exec
+KNOWN_TARGETS=docker-exec
 ARGS:=$(filter-out $(KNOWN_TARGETS),$(MAKECMDGOALS))
 
 # HELP
@@ -50,4 +50,4 @@ docker-clean: ## Stop all dev containers and remove volume, image and network
 	$(docker-compose) down -v --rmi all
 
 docker-exec: ## Run command in API container, such as "make test"
-	$(docker-compose) exec web $(ARGS)
+	$(docker-compose) exec webserver $(ARGS)
