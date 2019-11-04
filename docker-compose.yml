@@ -11,7 +11,7 @@ services:
   database:
     container_name: database_${APP_VERSION}
     restart: on-failure
-    image: postgres:9.5
+    image: postgres:9.6
     volumes:
       - db:/var/lib/postgresql/data
     networks:

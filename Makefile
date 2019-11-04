@@ -4,7 +4,6 @@ ifeq (test, $(firstword $(MAKECMDGOALS)))
 endif
 
 APP_NAME=housing
-docker-compose=docker-compose -f docker-compose.yml
 
 KNOWN_TARGETS=docker-exec
 ARGS:=$(filter-out $(KNOWN_TARGETS),$(MAKECMDGOALS))
@@ -21,7 +20,7 @@ help:
 
 
 install: ## Install pip dependencies for the API
-	pip install -r src/requirements.dev.txt
+	pip install -r requirements.dev.txt
 
 run: ## Start API server
 	python src/manage.py runserver --settings=housing.settings
@@ -33,21 +32,20 @@ clean_pyc: ## Delete all .pyc files
 
 # DOCKER COMMANDS
 
-docker-build: ## Build develoment container
-	$(docker-compose) build --no-cache
-	$(docker-compose) up -d
+build: ## Build develoment container
+	docker build -t luizbraga/housing:local .
 
-docker-up: ## Run all dev containers
-	$(docker-compose) up -d
+up: ## Run all dev containers
+	docker-compose up -d
 
-docker-down: ## Stop all dev containers
-	$(docker-compose) down
+down: ## Stop all dev containers
+	docker-compose down
 
-docker-restart: ## Restart all dev containers
-	$(docker-compose) restart
+restart: ## Restart all dev containers
+	docker-compose restart
 
 docker-clean: ## Stop all dev containers and remove volume, image and network
-	$(docker-compose) down -v --rmi all
+	docker-compose down -v --rmi all
 
 docker-exec: ## Run command in API container, such as "make test"
-	$(docker-compose) exec webserver $(ARGS)
+	docker-compose exec webserver $(ARGS)
