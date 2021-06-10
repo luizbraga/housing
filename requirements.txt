@@ -1,4 +1,4 @@
-Django==2.1.11
+Django==2.2.24
 djangorestframework==3.9.1
 dj-database-url==0.5.0
 python-decouple==3.1
